@@ -156,11 +156,40 @@ OpenGeoportal.Views.SearchResultsRow = OpenGeoportal.Views.LayerRow.extend({
 	toggleSave: function(e){
 		//if not in cart, add it.  if in cart, remove it.
 		if (this.model.get("Location").externalDownload){
-			var dialogText = "To download this layer, please visit this <a href='" + this.model.get("Location").externalDownload + "' target='_blank'>link</a>.<br/>";
-			var dialogDiv = "<div id='no-preview-dialog'><p>" + dialogText + "</p></div>";
-			jQuery(dialogDiv).dialog({
+            var iframeDiv = jQuery("<div></div>");
+            var iframeLoadingText = jQuery("<h2>Loading...</h2>")
+                iframeLoadingText.addClass("iframe-loading-text");
+                
+            var iframe = jQuery("<iframe></iframe>")
+                .addClass("external-download-iframe")
+                .attr("src",this.model.get("Location").externalDownload)
+                .css("position","relative")
+                .css("width","100%")
+                .css("height","100%")
+                .css("display","none");
+
+            iframeDiv.append(iframeLoadingText);
+            iframeDiv.append(iframe);
+            
+            var iframeObject = iframe.get()[0];
+
+            if (iframeObject.attachEvent){
+                iframeObject.attachEvent("onload", function(){
+                    $(".iframe-loading-text").hide();
+                    $(".external-download-iframe").show();
+                });
+            } else {
+                iframeObject.onload = function(){
+                    $(".iframe-loading-text").hide();
+                    $(".external-download-iframe").show();
+                };
+            }
+
+			jQuery(iframeDiv).dialog({
 				modal: true,
-				draggable: false,
+				draggable: true,
+                width: 400,
+                height: 400,
 				buttons: [
 					{
 					  text: "OK",
