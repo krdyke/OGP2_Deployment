@@ -156,49 +156,52 @@ OpenGeoportal.Views.SearchResultsRow = OpenGeoportal.Views.LayerRow.extend({
 	toggleSave: function(e){
 		//if not in cart, add it.  if in cart, remove it.
 		if (this.model.get("Location").externalDownload){
-            var iframeDiv = jQuery("<div></div>");
-            var iframeLoadingText = jQuery("<h2>Loading...</h2>")
-                iframeLoadingText.addClass("iframe-loading-text");
-                
-            var iframe = jQuery("<iframe></iframe>")
+		    var iframeDiv = jQuery("<div></div>");
+		    var iframeLoadingText = jQuery("<h2>Loading...</h2>")
+			iframeLoadingText.addClass("iframe-loading-text");
+			
+		    var iframe = jQuery("<iframe></iframe>")
                 .addClass("external-download-iframe")
                 .attr("src",this.model.get("Location").externalDownload)
                 .css("position","relative")
                 .css("width","100%")
-                .css("height","100%")
+                .css("height","95%")
                 .css("display","none");
 
-            iframeDiv.append(iframeLoadingText);
-            iframeDiv.append(iframe);
-            
-            var iframeObject = iframe.get()[0];
+		    iframeDiv.append(iframeLoadingText);
+		    iframeDiv.append(iframe);
+		    
+		    var iframeObject = iframe.get()[0];
 
-            if (iframeObject.attachEvent){
+		    if (iframeObject.attachEvent){
                 iframeObject.attachEvent("onload", function(){
                     $(".iframe-loading-text").hide();
                     $(".external-download-iframe").show();
                 });
-            } else {
+		    } else {
                 iframeObject.onload = function(){
                     $(".iframe-loading-text").hide();
                     $(".external-download-iframe").show();
                 };
-            }
+		    }
+    
+            iframeDiv.append("<span><a href='" + this.model.get("Location").externalDownload +
+                "' target='_none'>Open in a new window</a></span>");
 
-			jQuery(iframeDiv).dialog({
-				modal: true,
-				draggable: true,
-                width: 400,
-                height: 400,
-				buttons: [
-					{
-					  text: "OK",
-					  click: function() {
-					$( this ).dialog( "close" );
-					  }
-					}
-				  ]
-			});
+		jQuery(iframeDiv).dialog({
+			modal: true,
+			draggable: true,
+			width: 400,
+			height: 400,
+			buttons: [
+				{
+				  text: "Close",
+				  click: function() {
+				$( this ).dialog( "close" );
+				  }
+				}
+			  ]
+		});
 		}
 		else{
 			var match = this.cart.findWhere({LayerId: this.model.get("LayerId")});
