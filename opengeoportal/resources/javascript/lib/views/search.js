@@ -45,7 +45,7 @@ OpenGeoportal.Views.Query = Backbone.View
 						}).addClass("searchButton");
 				
 				this.solrAutocomplete(
-						jQuery("#advancedOriginatorText"), "OriginatorSort");
+						jQuery("#advancedPublisherText"), "PublisherSort");
 				
 				this.createInstitutionsMenu();
 				this.createDataTypesMenu();
@@ -97,8 +97,8 @@ OpenGeoportal.Views.Query = Backbone.View
 				jQuery("#advancedKeywordText").data({
 					queryAttr : "keyword"
 				});
-				jQuery("#advancedOriginatorText").data({
-					queryAttr : "originator"
+				jQuery("#advancedPublisherText").data({
+					queryAttr : "publisher"
 				});
 				jQuery("#advancedDateFromText").data({
 					queryAttr : "dateFrom"
@@ -421,7 +421,7 @@ OpenGeoportal.Views.Query = Backbone.View
 				this.clearInput("mapFilterCheck");
 				//clear text fields
 				this.clearInput("advancedKeywordText");
-				this.clearInput("advancedOriginatorText");
+				this.clearInput("advancedPublisherText");
 				this.clearInput("advancedDateFromText");
 				this.clearInput("advancedDateToText");
 				

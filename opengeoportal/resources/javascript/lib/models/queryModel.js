@@ -16,7 +16,7 @@ OpenGeoportal.Models.QueryTerms = Backbone.Model.extend({
 		what: "",
 		where: "",
 		keyword: "",
-		originator: "",
+		publisher: "",
 		dataType: [],
 		repository: [],
 		dateFrom: null,
@@ -199,9 +199,9 @@ OpenGeoportal.Models.QueryTerms = Backbone.Model.extend({
 
 		solr.addFilter(solr.createAccessFilter(this.get("displayRestrictedAdvanced")));
 
-		var originator = this.get("originator");
+		var publisher = this.get("publisher");
 		// TODO: should this be a filter?
-		solr.addFilter(solr.createFilter("Originator", originator,
+		solr.addFilter(solr.createFilter("Publisher", publisher,
 				null, "AND"));
 
 		var isoTopic = this.get("isoTopic");
